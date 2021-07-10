@@ -1,3 +1,4 @@
+import Yweet from 'components/Yweet';
 import { dbService } from 'fbase';
 import React, { useEffect, useState } from 'react';
 
@@ -12,7 +13,6 @@ const Home = ({ userObj }) => {
         ...doc.data(),
       }));
       setYweets(yweetArray);
-      console.log(yweetArray);
     });
   }, []);
 
@@ -47,9 +47,11 @@ const Home = ({ userObj }) => {
       </form>
       <div>
         {yweets.map((yweet) => (
-          <div key={yweet.id}>
-            <h4>{yweet.text}</h4>
-          </div>
+          <Yweet
+            key={yweet.id}
+            yweetObj={yweet}
+            isOwner={yweet.creatorId === userObj.uid}
+          />
         ))}
       </div>
     </div>
