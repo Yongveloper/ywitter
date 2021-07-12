@@ -21,6 +21,12 @@ const Home = ({ userObj }) => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
+
+    if (!yweet) {
+      alert('Please input the contents!');
+      return;
+    }
+
     await dbService.collection('yweets').add({
       text: yweet,
       createAt: Date.now(),
@@ -46,6 +52,7 @@ const Home = ({ userObj }) => {
           placeholder="What's on your mind?"
           maxLength={120}
         />
+        <input type="file" accept="image/*" />
         <input type="submit" value="Yweet" />
       </form>
       <div>
