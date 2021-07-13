@@ -6,12 +6,12 @@ import React, { useEffect, useState } from 'react';
 const Home = ({ userObj }) => {
   const [yweet, setYweet] = useState('');
   const [yweets, setYweets] = useState([]);
-  const [attachment, setAttachment] = useState(null);
+  const [attachment, setAttachment] = useState('');
 
   useEffect(() => {
     dbService
       .collection('yweets')
-      .orderBy('createAt', 'desc')
+      .orderBy('createdAt', 'desc')
       .onSnapshot((snapshot) => {
         const yweetArray = snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -40,7 +40,7 @@ const Home = ({ userObj }) => {
 
     const yweetObj = {
       text: yweet,
-      createAt: Date.now(),
+      createdAt: Date.now(),
       creatorId: userObj.uid,
       attachmentUrl,
     };
