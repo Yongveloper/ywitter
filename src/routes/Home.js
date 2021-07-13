@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 const Home = ({ userObj }) => {
   const [yweet, setYweet] = useState('');
   const [yweets, setYweets] = useState([]);
+  const [attachment, setAttachment] = useState(null);
 
   useEffect(() => {
     dbService
@@ -49,10 +50,15 @@ const Home = ({ userObj }) => {
     const theFile = files[0];
     const reader = new FileReader();
     reader.onloadend = (finishedEvent) => {
-      console.log(finishedEvent);
+      const {
+        currentTarget: { result },
+      } = finishedEvent;
+      setAttachment(result);
     };
     reader.readAsDataURL(theFile);
   };
+
+  const onClearAttachmentClick = () => setAttachment(null);
 
   return (
     <div>
@@ -66,6 +72,12 @@ const Home = ({ userObj }) => {
         />
         <input type="file" accept="image/*" onChange={onFileChange} />
         <input type="submit" value="Yweet" />
+        {attachment && (
+          <div>
+            <img src={attachment} alt="thumb" width="50px" heigth="50px" />
+            <button onClick={onClearAttachmentClick}>Clear</button>
+          </div>
+        )}
       </form>
       <div>
         {yweets.map((yweet) => (
