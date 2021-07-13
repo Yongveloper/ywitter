@@ -1,5 +1,6 @@
 import Yweet from 'components/Yweet';
-import { dbService } from 'fbase';
+import { v4 as uuidv4 } from 'uuid';
+import { dbService, storageService } from 'fbase';
 import React, { useEffect, useState } from 'react';
 
 const Home = ({ userObj }) => {
@@ -23,17 +24,20 @@ const Home = ({ userObj }) => {
   const onSubmit = async (event) => {
     event.preventDefault();
 
-    if (!yweet) {
+    if (!yweet && !attachment) {
       alert('Please input the contents!');
       return;
     }
 
-    await dbService.collection('yweets').add({
-      text: yweet,
-      createAt: Date.now(),
-      creatorId: userObj.uid,
-    });
-    setYweet('');
+    const fileRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
+    const response = await fileRef.putString(attachment, 'data_url');
+    console.log(response);
+    // await dbService.collection('yweets').add({
+    //   text: yweet,
+    //   createAt: Date.now(),
+    //   creatorId: userObj.uid,
+    // });
+    // setYweet('');
   };
 
   const onChange = (event) => {
