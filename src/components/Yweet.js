@@ -48,6 +48,14 @@ const Yweet = ({ yweetObj, isOwner }) => {
       ) : (
         <>
           <h4>{yweetObj?.text}</h4>
+          {yweetObj.attachmentUrl && (
+            <img
+              src={yweetObj.attachmentUrl}
+              alt="feedImg"
+              width="50px"
+              height="50px"
+            />
+          )}
           {isOwner && (
             <>
               <button onClick={onDeleteClick}>Delete Yweet</button>
