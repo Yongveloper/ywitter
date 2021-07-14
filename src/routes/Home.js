@@ -7,7 +7,7 @@ const Home = ({ userObj }) => {
   const [yweets, setYweets] = useState([]);
 
   useEffect(() => {
-    dbService
+    const fetchData = dbService
       .collection('yweets')
       .orderBy('createdAt', 'desc')
       .onSnapshot((snapshot) => {
@@ -17,12 +17,13 @@ const Home = ({ userObj }) => {
         }));
         setYweets(yweetArray);
       });
+    return () => fetchData();
   }, []);
 
   return (
-    <div>
+    <div className="container">
       <YweetFactory userObj={userObj} />
-      <div>
+      <div style={{ marginTop: 30 }}>
         {yweets.map((yweet) => (
           <Yweet
             key={yweet.id}
